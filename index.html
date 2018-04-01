@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>vote</title>
+	<script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/4.12.0/firebase-app.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/4.12.0/firebase-auth.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/4.12.0/firebase-database.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/4.12.0/firebase-firestore.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/4.12.0/firebase-messaging.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/4.12.0/firebase-functions.js"></script>
+
+	<style>
+		h1{
+			text-align: center;
+			background: coral;
+			color: white;
+			margin-top: 0;
+			padding-top: 0;
+			font-size: 36px;
+		}
+		.container{
+			width: 80%;
+			margin: auto;
+			text-align: center;
+		}
+		.hide{
+			display: none;
+		}
+	</style>
+	
+
+</head>
+<body>
+
+
+	<h1>login  | Choose wisely</h1>
+
+	<div class="container">
+			<h2 id="vote"></h2>
+			<h2 id="votes">	</h2>
+			<h2 id="json"></h2>
+
+	</div>
+
+	<!-- <button id="add" onclick="add()">Add a</button> -->
+	<button id="add" >Add a</button>
+	<button id="reset" >Reset a</button>
+	<div class="container">
+		<h2>login</h2>
+		<input type="text" id="emailtxt" placeholder="email">
+		<input type="password" id="passtxt" placeholder="passoword">
+
+		<button id="btnLogin">Login</button>
+		<button id="btnSignup">Sign UP</button>
+		<button id="btnLogout">Log OUt</button>
+
+		<button id="google" onclick="google()">Sign in with GOOGle</button>
+		<button id="googleOut" onclick="googleOut()">Sign out with GOOGle</button>
+		<button onclick = "googleSignin()">Google Signin</button>
+		<button onclick = "googleSignout()">Google Signout</button>
+
+	</div>
+	
+	<script src="app.js"></script>
+	<!-- <script src="signup.js"></script> -->
+	<script>
+		var provider = new firebase.auth.GoogleAuthProvider();
+
+		function googleSignin() {
+		   firebase.auth()
+		   
+		   .signInWithPopup(provider).then(function(result) {
+		      var token = result.credential.accessToken;
+		      var user = result.user;
+				
+		      console.log(token)
+		      console.log(user)
+		   }).catch(function(error) {
+		      var errorCode = error.code;
+		      var errorMessage = error.message;
+				
+		      console.log(error.code)
+		      console.log(error.message)
+		   });
+		}
+
+		function googleSignout() {
+		   firebase.auth().signOut()
+			
+		   .then(function() {
+		      console.log('Signout Succesfull')
+		   }, function(error) {
+		      console.log('Signout Failed')  
+		   });
+		}
+	</script>
+
+	<script>
+
+	  var vote = document.getElementById('vote');
+	  var dbRef = firebase.database().ref().child('text');
+	  var dbRef2 = firebase.database().ref().child('votes/a');
+	  dbRef.on('value', function(snap){
+	  	vote.innerText = snap.val();
+	  	
+	  });
+
+	  dbRef2.on('value', function(snap){
+	  	votes.innerText = snap.val();
+	  	
+	  });
+
+
+	  var b1= document.getElementById('add');
+	  b1.addEventListener('click',add);
+
+	  function add(){
+	  	dbRef2.transaction(function(value)
+	   {
+			   return value + 1;
+			});
+	  };
+
+	  var b2= document.getElementById('reset');
+	  b2.addEventListener('click',reset);
+
+	  function reset(){
+	  	dbRef2.transaction(function(value)
+	   {	
+	   		var check= prompt("Enter password to delete");
+	   		if( check== "mahesh"){
+	   			value = 0;
+			   return value;
+			   alert("done");
+	   		}	
+	   		else{
+	   			alert("wrong key can't do it");
+	   		}
+
+
+
+			});
+	  };
+
+	 //  var ref = firebase.database().ref();
+
+		// ref.on("value", function(snapshot) {
+		//    console.log(snapshot.val());
+		// }, function (error) {
+		//    console.log("Error: " + error.code);
+		// });
+
+
+		var output = document.getElementById('json');
+		var ref = firebase.database().ref();
+		ref.on("value", function(snapshot){
+    		output.innerHTML = JSON.stringify(snapshot.val());
+			});
+
+
+
+
+
+
+	</script>
+
+
+</body>
+</html>
