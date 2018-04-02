@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>vote2</title>
+	<script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+	
+
+	<style>
+		h1{
+			text-align: center;
+			background: coral;
+			color: white;
+			margin-top: 0;
+			padding-top: 0;
+			font-size: 36px;
+		}
+		.container{
+			width: 80%;
+			margin: auto;
+			text-align: center;
+		}
+		div{
+			margin: auto;
+		}
+		.w3-container{
+			width:55%;
+		}
+	</style>
+	
+
+</head>
+<body>
+
+
+	<h1>Vote | Choose wisely</h1>
+	<br><br>
+	<div class="w3-container w3-center">
+		<ul class="w3-ul w3-card-4" >
+			<li><h2>What is your favourite subject?</h2></li>
+		    <li>1. Web Technologies</li>
+		    <li>2. Linux Internals</li>
+		    <li>3. Probability and Statistics</li>
+		    <li>4. DBMS</li>
+		    <li> <input id="inpVal" class="w3-input w3-border" type="text" placeholder="Enter the number"><button class="w3-btn w3-blue" id="btn"  onclick="assign()">Submit</button></li>
+		 </ul>
+	</div>
+	
+<script>
+		
+		 // Initialize Firebase
+	  var config = {
+	    apiKey: "AIzaSyCfmUV8apnro0ZY4LbwxnzxNM6NpTBSf00",
+	    authDomain: "vot-app.firebaseapp.com",
+	    databaseURL: "https://vot-app.firebaseio.com",
+	    projectId: "vot-app",
+	    storageBucket: "",
+	    messagingSenderId: "616079849230"
+	  };
+	  firebase.initializeApp(config);
+
+	  var vote = document.getElementById('vote');
+	  var a1 = document.getElementById('a1');
+	  var b = document.getElementById('b');
+	  var c = document.getElementById('c');
+	  var d = document.getElementById('d');
+	  var btn = document.getElementById('btn');
+	  var inpVal = document.getElementById('inpVal');
+
+
+	  var dbRefa1 = firebase.database().ref().child('votes/a1');
+	  var dbRefb = firebase.database().ref().child('votes/b');
+	  var dbRefc = firebase.database().ref().child('votes/c');
+	  var dbRefd = firebase.database().ref().child('votes/d');
+
+	 
+
+	  dbRefa1.on('value', function(snap){
+	  	a1.innerText = snap.val();
+	  	
+	  });
+	  dbRefb.on('value', function(snap){
+	  	b.innerText = snap.val();
+	  	
+	  });
+	  dbRefc.on('value', function(snap){
+	  	c.innerText = snap.val();
+	  	
+	  });
+	  dbRefd.on('value', function(snap){
+	  	d.innerText = snap.val();
+	  	
+	  });
+
+
+
+	  // var b1= document.getElementById('add');
+	  // b1.addEventListener('click',add);
+
+	  function assign(){
+     // location.assign('page3.html');
+    	if(inpVal.value == '1'){
+	  	  // btn.addEventListener('click',adda1);
+	  	  adda1();
+	  	  inpVal.value = null;
+	  	  location.assign('page3.html');
+	  }
+	  	else if(inpVal.value == '2'){
+	  	  // btn.addEventListener('click',addb);
+	  	  addb();
+	  	  inpVal.value = null;
+	  	  location.assign('page3.html');
+	  }
+	  	else if(inpVal.value == '3'){
+	  	  // btn.addEventListener('click',addc);
+	  	  addc();
+	  	  inpVal.value = null;
+	  	  location.assign('page3.html');
+	  }
+	   else if(inpVal.value == '4'){
+	  	  // btn.addEventListener('click',addd);
+	  	  addd();
+	  	  inpVal.value = null;
+	  	  location.assign('page3.html');
+	  }
+	  else{
+	  	alert("wrong choice! choose wisely......");
+	  }
+  	}
+	  // var btn is istantiated above
+	  
+
+	  function add(){
+	  	dbRef2.transaction(function(value)
+	   {
+			   return value + 1;
+			});
+	  };
+
+	  function adda1(){
+	  	dbRefa1.transaction(function(value)
+	   {
+			   return value + 1;
+			});
+	  };
+
+	  function addb(){
+	  	dbRefb.transaction(function(value)
+	   {
+			   return value + 1;
+			});
+	  };
+
+	  function addc(){
+	  	dbRefc.transaction(function(value)
+	   {
+			   return value + 1;
+			});
+	  };
+
+	  function addd(){
+	  	dbRefd.transaction(function(value)
+	   {
+			   return value + 1;
+			});
+	  };
+
+	 
+</script>
+
+
+</body>
+</html>
