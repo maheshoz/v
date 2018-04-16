@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Online vote app</title>
+<link rel="icon" href="2.jpg">
+<link href="https://fonts.googleapis.com/css?family=Roboto:300" rel="stylesheet">
+
+	
+	<script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+	<style>
+		body,html{
+			padding: 0;
+			margin: 0;
+			font-family: 'Roboto', sans-serif;
+			background: #c9d6ff2b; 
+            background: linear-gradient(to right, #E2E2E2, #c9d6ff2b);
+ }
+		h1{
+			text-align: center;
+			background: coral;
+			color: white;
+			margin: 0;
+			padding: 0;
+			padding:5px;
+			font-size: 2rem;
+			/*font-weight: lighter;*/
+		}
+		h2{
+			font-weight: lighter;
+			margin: 0;
+			padding: 0;
+		}
+		.container {
+			width: 80%;
+			margin: auto;
+			text-align: center;
+		}
+
+		div {
+			margin: auto;
+		}
+
+		span {
+			font-size: 20px;
+		}
+
+		a {
+			text-decoration: none;
+			color: white;
+		}
+
+		 .green {
+			 margin-top: 13px;
+			 margin-bottom: 13px;
+    color: #fff;
+    background-color: #4CAF50;
+	text-align: left;
+	font-weight: lighter;
+	padding-left: 3px;
+	
+}
+		.ul {
+			background-color: #FFFFFF;
+			list-style-type: none;
+			padding: 0;
+			margin: 0;
+			font-size: 18px;
+		}
+
+		.ul li {
+			padding: 8px 16px;
+			border-bottom: 1px solid #ddd;
+			font-size: 19px;
+		}
+
+		.ul li:last-child {
+			border-bottom: none
+		}
+
+		.bs {
+			box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.2), 0 4px 20px 0 rgba(0, 0, 0, 0.19)
+		}
+		.btn{
+			float: right;
+			margin-top:25px;
+			 padding: 8px;
+      border-radius: 5px;
+ background:rgb(235, 70, 58) ;
+    color: white;
+      border: 0.5px solid white;
+      margin-bottom: 10px;
+	  margin-right: 30px;
+
+		}
+		.mt{
+			margin-top: 30px;
+		}
+	</style>
+
+
+</head>
+
+<body>
+
+
+	<h1>
+		<a href="index.html">Online Voting Application</a>
+	</h1>
+
+	<div class="container mt">
+		<h2 class="green" id="timeOut">Thanks for voting</h2>
+		<h1 class="">Current Voting Results</h1>
+		<ul class="ul bs">
+			<li>1. Web Technologies &nbsp;&nbsp;&nbsp;
+				<h2 id="a1"> a</h2>
+			</li>
+			<li>2. Linux Internals&nbsp;&nbsp;&nbsp;
+				<h2 id="b">b</h2>
+			</li>
+			<li>3. Probability and Statistics &nbsp;&nbsp;&nbsp;
+				<h2 id="c">c</h2>
+			</li>
+			<li>4. DBMS &nbsp;&nbsp;&nbsp;
+				<h2 id="d">d</h2>
+			</li>
+			</li>
+		</ul>
+	</div>
+	<button class="btn"> <a href="index.html">Go to Home page</a></button>
+
+	<div style="margin-top: 200px;"></div>
+
+
+	<script>
+		// Initialize Firebase
+		var config = {
+			apiKey: "AIzaSyCfmUV8apnro0ZY4LbwxnzxNM6NpTBSf00",
+			authDomain: "vot-app.firebaseapp.com",
+			databaseURL: "https://vot-app.firebaseio.com",
+			projectId: "vot-app",
+			storageBucket: "",
+			messagingSenderId: "616079849230"
+		};
+		firebase.initializeApp(config);
+
+		var a1 = document.getElementById('a1');
+		var b = document.getElementById('b');
+		var c = document.getElementById('c');
+		var d = document.getElementById('d');
+
+		var dbRefa1 = firebase.database().ref().child('votes/a1');
+		var dbRefb = firebase.database().ref().child('votes/b');
+		var dbRefc = firebase.database().ref().child('votes/c');
+		var dbRefd = firebase.database().ref().child('votes/d');
+
+
+
+
+		dbRefa1.on('value', function (snap) {
+			a1.innerText = snap.val();
+
+		});
+		dbRefb.on('value', function (snap) {
+			b.innerText = snap.val();
+
+		});
+		dbRefc.on('value', function (snap) {
+			c.innerText = snap.val();
+
+		});
+		dbRefd.on('value', function (snap) {
+			d.innerText = snap.val();
+
+		});
+
+       var time = document.getElementById("timeOut");
+        setTimeout(function() {
+        	time.style.display = "none";
+        }, 1300);
+
+
+
+
+		function adda1() {
+			dbRefa1.transaction(function (value) {
+				return value + 1;
+			});
+		};
+
+		function addb() {
+			dbRefb.transaction(function (value) {
+				return value + 1;
+			});
+		};
+
+		function addc() {
+			dbRefc.transaction(function (value) {
+				return value + 1;
+			});
+		};
+
+		function addd() {
+			dbRefd.transaction(function (value) {
+				return value + 1;
+			});
+		};
+	</script>
+
+
+</body>
+
+</html>
